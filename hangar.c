@@ -1,41 +1,53 @@
 /*HANGAR*/
 
 #include <sys/types.h>
-#include <sys/wait.h>
+#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+#include <semaphore.h>
+#include "torre.h"
 
-#define DATI_DA_SCRIVERE "Dati dal child"
+#define N 10
 
-extern char sParentela[64];
-extern char sBuf[64];
-extern long lDataSize;
-extern int fd; 
-extern pid_t pid;
-
-void hangar(int iChildPid) {
-	int iRet;
+int parent(pid_t *childpid){
 	int wstatus;
-	sleep(5);
-	waitpid(iChildPid, &wstatus, 0);
-	if(WIFEXITED(wstatus)) {
-		printf("%s: Child %d normally terminated\n", sParentela, iChildPid);
-		printf("%s: Child exit code = %d\n", sParentela, WEXITSTATUS(wstatus));
-		lseek(fd, SEEK_SET, 0);
-		iRet = read(fd, sBuf, lDataSize);
-		if(iRet) {
-			sBuf[iRet] = '\0';
-			printf("%s: Il parent ha riletto \"%s\"\n", sParentela, sBuf);
-			printf("%s: ritorno read = %d\n", sParentela, iRet);
+    char *s;
+	sem_t *sem = sem_open("/semaforo", O_CREAT, S_IRWXU|S_IRGRP|S_IWGRP, 0);
+
+    // creazione 10 processi aereo
+    pid_t pid[10];
+    for(int n = 0; n < N; n++) {
+        sleep(2);
+		pid[n] = fork();
+		if (pid[n] < 0) { /* error occurred */
+			fprintf(stderr, "Fork Fallito");
+			return 1;
 		}
-		else {
-			printf("%s: read reached EOF\n", sParentela);
+		else if (pid[n] == 0) { /* processo aereo */
+			sprintf(s, "%d", n);
+			execlp("./aereo", "aereo", s, NULL);
+			fprintf(stderr, "Exec Failed!\n");
+			return 1;
 		}
 	}
-	else {
-		printf("Child abnormally terminated\n");
-	}	
+
+	printf("Hangar: attesa terminazione aerei ...\n");
 	
-	return;
+	sem_post(sem);
+	sem_post(sem);
+	
+	for(int i=0; i < 10; i++){
+		waitpid(childpid[0], &wstatus, 0);
+		if(WIFEXITED(wstatus))
+			printf("Hangar: exit code aereo %d = %d\n", i, WEXITSTATUS(wstatus));
+	}
+			
+	sem_close(sem);
+	sem_unlink("np1");
+
+	return 0;
 }
