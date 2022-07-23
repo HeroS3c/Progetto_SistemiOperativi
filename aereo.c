@@ -12,16 +12,19 @@
 #include <signal.h>
 #include "torre.h"
 
-int aereo(int argc, char *argv[]){
+int main(int argc, char *argv[]){
 	
 	sem_t *sem = sem_open("/semaforo", O_CREAT, S_IRWXU|S_IRGRP|S_IWGRP, 0);
 
-	printf("Aereo partito");
+	changecolor(GREEN);
+	printf("[⇑] Aereo: %d partito \n", getpid());
 
+	int value;
 
-
-	sem_wait(sem);
-	sem_close(sem);
+	sem_wait(sem); // blocca l'aereo finchè il semaforo non diventa > 0
+	
+	
+	sem_close(sem); // chiude il semaforo
 	
 	return 0;
 }

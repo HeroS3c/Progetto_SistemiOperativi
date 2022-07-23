@@ -7,26 +7,28 @@
 #include <fcntl.h> /* For O_* constants */
 #include <sys/stat.h> /* For mode constants */
 #include <semaphore.h>
+#include <errno.h>
 
-int child(int);
-int parent(pid_t *);
+
+int hangar(pid_t *);
 char s[4];
 
 int main(){
 	int iRet = 0, pid;
 	
 	pid = fork();
+
 	if (pid < 0) { /* error occurred */
 		fprintf(stderr, "Fork Failed");
 		return 1;
 	}
 	else if (pid == 0) { /* child process */
-		execlp("./hangar", "hangar", s, NULL);
-		fprintf(stderr, "Exec Failed!\n");
+		hangar(&pid);
+		fprintf(stderr, "Exec Failed! (Torre): %d\n", errno);
 		return 1;
 	}
 
 
-	iRet = parent(pid);
+	iRet = hangar(&pid);
 	return iRet;
 }
