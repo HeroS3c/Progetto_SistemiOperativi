@@ -1,4 +1,4 @@
 # CORREZIONI
 
 ## hangar 
-È tutto doppio, come se ci fossero 2 processi hangar
+funziona ma parte solo un aereo

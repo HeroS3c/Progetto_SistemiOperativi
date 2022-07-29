@@ -1,15 +1,19 @@
-EXE = aereporto
-CHILD = aereo
+TORRE = torre
+HANGAR = hangar
+AEREO = aereo
 CC = gcc
 FLAGS = -pthread # per abilitare il multithreading
 
-all: $(CHILD) $(EXE)
+all: $(TORRE) $(HANGAR) $(AEREO)
 
-$(EXE): torre.o hangar.o 
-	$(CC) $(FLAGS) -o $(EXE) torre.o hangar.o 
+$(TORRE): torre.o
+	$(CC) $(FLAGS) -o $(TORRE) torre.o
 	
-$(CHILD): aereo.o
-	$(CC) $(FLAGS) -o $(CHILD) aereo.o
+$(HANGAR): hangar.o
+	$(CC) $(FLAGS) -o $(HANGAR) hangar.o
+	
+$(AEREO): aereo.o
+	$(CC) $(FLAGS) -o $(AEREO) aereo.o
 
 torre.o: torre.c torre.h
 	$(CC) -c -o "$@" torre.c
