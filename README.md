@@ -1,4 +1,4 @@
-﻿### con `bash run.sh` è possibile compilare e lanciare il programma, ma è comunque possibile usare il comando `make`
+﻿### Con `bash run.sh` è possibile compilare e lanciare il programma, ma è comunque possibile usare il comando `make`
  
  # NOTE
 - Il progetto è stato testato su '5.15.49-1-MANJARO (GNU/Linux)'
