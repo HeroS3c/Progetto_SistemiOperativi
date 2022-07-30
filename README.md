@@ -2,9 +2,9 @@
 - Il progetto è stato testato su '5.15.49-1-MANJARO (GNU/Linux)'
 - torre e hangar sono 2 processi distinti ma avviati "in contemporanea" rispetto invece ai processi aereo la cui creazione avviene ogni 2s.
 - Ho utilizzato un secondo terminale per analizzare la creazione / terminazione di ogni processo, con 
-    '''
+    `
     while test 1; do ps axf | grep torre | grep -vw grep; ps axf | grep hangar | grep -vw grep; ps axf | grep aereo | grep -vw grep; sleep .3; clear; done
-    '''
+    `
 - lib.h e lib.c sono file aggiuntivi (non richiesti nel progetto) utilizzati per gestire alcune funzioni (ad. il cambio del colore del testo) in modo più comodo e pulito
 
 # TESTO
