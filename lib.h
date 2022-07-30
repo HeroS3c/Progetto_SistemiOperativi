@@ -10,8 +10,8 @@ enum COLORS
 	BLUE = 34,
 	MAGENTA = 35,
 	CYAN = 36,
-	WHITE = 37
-
+	WHITE = 37,
+	BOLD = 1
 };
 
 void changecolor(int color);

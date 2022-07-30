@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     } else if (pid[n] == 0) { /* processo aereo */
       changecolor(CYAN);
       print_time();
-      printf(" hangar: Creazione processo aereo\n");
+      printf(" hangar: Creazione processo aereo %d\n", n);
 
       sprintf(arg, "%d", n); // 1 è la size dell'argomento (da cambiare in caso)
                              // <-> scopo: n da int a char*
@@ -86,5 +86,10 @@ int main(int argc, char *argv[]) {
   sem_close(sem);
   sem_unlink("semaforo");
   unlink(PIPE_PATH);
+  changecolor(CYAN);
+  print_time();
+  printf(" hangar: processo terminato\n");
+
+
   return 0;
 }

@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
 	// Trascorso il tempo necessario per il decollo il processo invia una notifica
 	// di fine decollo alla Torre e termina.
-	strcpy(stData.s, "ARRIVO");
+	strcpy(stData.s, "FINE");
 	if (write(fd, &stData, sizeof(stData)) == -1) {
 		perror("Aereo: Errore in write");
 		return 1;
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 
 	changecolor(RED);
 	print_time();
-	printf("[⇓] Aereo %d: atterrato\n", stData.iCod);
+	printf("[⇓] Aereo %d: fine decollo\n", stData.iCod);
 
 	close(fd);
 	sem_close(sem); // chiude il semaforo

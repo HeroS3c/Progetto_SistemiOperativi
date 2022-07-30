@@ -17,20 +17,20 @@
 int hangar(pid_t *);
 
 int main() {
-  printf("Progetto laboratorio 2021-22 (Loris Simonetti)\n"); // messaggio di avvio processo Torre
-
+  changecolor(BOLD);
+  printf("Progetto laboratorio 2021-22 (Loris Simonetti)\n"); // messaggio di avvio
+                                                           // processo Torre
+  changecolor(WHITE);
   struct Data stData;
 
   if (mkfifo(PIPE_PATH, S_IRWXU) == -1) // creata da bash
     perror("Errore in creazione FIFO");
 
-  sem_t *sem = sem_open("/semaforo", O_CREAT, S_IRWXU | S_IRGRP | S_IWGRP,
-                        2); // apertura semaforo (2 = n. piste)
+  sem_t *sem = sem_open("/semaforo", O_CREAT, S_IRWXU | S_IRGRP | S_IWGRP, 2); // apertura semaforo (2 = n. piste)
   // n = valore corrente del semaforo
   int semvalue = 0;
   int *sval = &semvalue;
   sem_getvalue(sem, sval);
-  
 
   int fd = 0; // file decriptor della pipe
   int iRet = 0, pid;
@@ -63,10 +63,11 @@ int main() {
       return 1;
     }
 
-    if (strcmp(stData.s, "ARRIVO")) {
+    if (strcmp(stData.s, "FINE")) {
       printf("\n");
       print_time();
-      printf("[T] Torre: aereo %d atterrato, notifico una pista libera\n", stData.iCod);
+      printf("[T] Torre: aereo %d decollato, notifico una pista libera\n",
+             stData.iCod);
       sem_post(sem);
       continue;
     }
