@@ -48,8 +48,7 @@ int main(int argc, char *argv[]) {
       print_time();
       printf(" hangar: Creazione processo aereo %d\n", n);
 
-      sprintf(arg, "%d", n); // 1 è la size dell'argomento (da cambiare in caso)
-                             // <-> scopo: n da int a char*
+      sprintf(arg, "%d", n); // <-> scopo: n da int a char*
       printf("arg: %s", arg);
       execlp("./aereo", "aereo", arg, NULL);
       fprintf(stderr, "Exec Failed! (Hangar)\n");
@@ -64,7 +63,7 @@ int main(int argc, char *argv[]) {
   printf(" Hangar: attesa terminazione aerei ...\n");
 
   for (int i = 0; i < N; i++) {
-    waitpid(pid[i], &wstatus, 0); // waitpid(childpid[0], &wstatus, 0);
+    waitpid(pid[i], &wstatus, 0); 
     changecolor(RED);
     if (WIFEXITED(wstatus)) {
       print_time();
